@@ -13,12 +13,7 @@ const Button = styled('button')`
   align-items: center;
   justify-content: center;
 
-  ${({ text }) => text && text === 'added' && css`
-    color: #34ca34;
-    border-color: #34ca34;
-  `}
-
-  ${({ text }) => text && text === 'remove' && css`
+  ${({ isActive }) => isActive && css`
     color: #e04949;
     border-color: #e04949;
   `}
@@ -50,14 +45,11 @@ export default class Toggle extends Component {
   }
 
   render() {
+    const text = this.props.isActive ? 'remove' : 'add';
+
     return (
-      <Button
-        text={this.state.text}
-        onMouseLeave={this.onMouseLeave}
-        onMouseOver={this.onMouseOver}
-        onClick={this.onClick}
-      >
-        {this.state.text}
+      <Button onClick={this.props.onClick} isActive={this.props.isActive}>
+        {text}
       </Button>
     )
   }

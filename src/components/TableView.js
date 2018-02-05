@@ -36,7 +36,7 @@ class TableView extends Component {
       data: transformedData,
       columns: [
         new SelectAllColumn('selectAll', SelectRowCell({ onCheckboxChange: this.onCheckboxChange, selected: new Set() }), { onSelectAll: this.onSelectAll }),
-        new TextSortableColumn('Item', 'name', ItemCell),
+        new TextSortableColumn('Item', 'name', ItemCell({ onAddButtonClick: this.onAddButtonClick })),
         new NumberSortableColumn('Qty & Sizing', 'quantity', QuantityAndSizingCell({ onQuantityInputChange: this.onQuantityInputChange })),
         new TextSortableColumn('Unit Price', 'unit_price', EditablePriceCell),
         new TextSortableColumn('Total Price', 'total_price', EditablePriceCell),
@@ -70,6 +70,15 @@ class TableView extends Component {
 
     newData[rowIndex].item_quantity = quantity;
     newData[rowIndex].total_price = `$${(quantity * price).toFixed(2)}`;
+
+    this.setState({
+      data: newData,
+    });
+  }
+
+  onAddButtonClick = (rowIndex) => {
+    const newData = [...this.state.data];
+    newData[rowIndex].isAdded = !this.state.data[rowIndex].isAdded;
 
     this.setState({
       data: newData,
