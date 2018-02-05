@@ -8,8 +8,8 @@ export default class NumberSortableColumn extends AbstractSortableColumn {
   }
 
   renderMenu = (sortColumn) => {
-    const sortAsc = () => sortColumn(this.propName, (a, b) => this.compare(a, b));
-    const sortDesc = () => sortColumn(this.propName, (a, b) => this.compare(b, a));
+    const sortAsc = () => sortColumn(this.propertyName, (a, b) => this.compare(a, b));
+    const sortDesc = () => sortColumn(this.propertyName, (a, b) => this.compare(b, a));
     return (
       <Menu>
         <MenuItem iconName="sort-asc" onClick={sortAsc} text="Sort Asc" />

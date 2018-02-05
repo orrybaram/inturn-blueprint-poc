@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cell } from '@blueprintjs/table';
+import { DefaultCell } from '../cells';
 
 export default ({ onBlur }) => (name) => (data, sortedIndexMap) => (rowIndex) => {
   const sortedRowIndex = sortedIndexMap[rowIndex];
@@ -7,16 +7,14 @@ export default ({ onBlur }) => (name) => (data, sortedIndexMap) => (rowIndex) =>
     rowIndex = sortedRowIndex;
   }
 
-  const value = data[rowIndex][name];
-
   const availableQuantity = data[rowIndex].quantity;
   const onInputBlur = (e) => {
     onBlur(e, rowIndex);
   }
   return (
-    <Cell interactive={true}>
+    <DefaultCell interactive={true}>
       <input style={{ width: 50 }} onBlur={onInputBlur}/>
       {availableQuantity}
-    </Cell>
+    </DefaultCell>
   )
 }

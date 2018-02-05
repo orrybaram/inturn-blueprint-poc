@@ -2,13 +2,13 @@ import React from 'react';
 import { ColumnHeaderCell, Column } from '@blueprintjs/table';
 
 export default class AbstractSortableColumn {
-  constructor(name, propName, cellRenderer) {
+  constructor(name, propertyName, cellRenderer) {
     this.name = name;
     this.cellRenderer = cellRenderer;
-    this.propName = propName;
+    this.propertyName = propertyName;
   }
 
-  getColumn(sortColumn, data, sortedIndexMap) {
+  getColumn(sortColumn, state) {
     const menuRenderer = this.renderMenu && this.renderMenu.bind(this, sortColumn);
     const columnHeaderCellRenderer = () => (
       <ColumnHeaderCell
@@ -20,9 +20,9 @@ export default class AbstractSortableColumn {
 
     return (
       <Column
-        renderCell={this.cellRenderer(this.propName)(data, sortedIndexMap)}
+        renderCell={this.cellRenderer(this.propertyName)(state.data, state.sortedIndexMap)}
         renderColumnHeader={columnHeaderCellRenderer}
-        key={this.propName}
+        key={this.propertyName}
         name={this.name}
       />
     );

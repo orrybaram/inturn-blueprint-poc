@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import {
-  Cell,
-  Column,
-  ColumnHeaderCell,
   Table,
   RenderMode,
   SelectionModes,
@@ -37,7 +34,7 @@ class TableView extends Component {
       selected: new Set(),
       data: transformedData,
       columns: [
-        new SelectAllColumn('selectAll', SelectRowCell),
+        new SelectAllColumn('selectAll', SelectRowCell({ onCheckboxChange: this.onCheckboxChange, selected: new Set() }), { onSelectAll: this.onSelectAll }),
         new TextSortableColumn('Item', 'name', ItemCell),
         new NumberSortableColumn('Qty & Sizing', 'quantity', QuantityAndSizingCell({ onBlur: this.onQuantityInputBlur })),
         new TextSortableColumn('Unit Price', 'unit_price', EditablePriceCell),
@@ -52,8 +49,17 @@ class TableView extends Component {
     }
   }
 
-  renderIdCell = (rowIndex) => {
-    return (<Cell>{rowIndex}</Cell>)
+  componentDidMount() {
+    const newColumns = [...this.state.columns];
+    newColumns[0] = new SelectAllColumn(
+      'selectAll',
+      SelectRowCell({ onCheckboxChange: this.onCheckboxChange, selected: this.state.selected }),
+      { onSelectAll: this.onSelectAll }
+    );
+
+    this.setState({
+      columns: newColumns,
+    })
   }
 
   onQuantityInputBlur = (e, rowIndex) => {
@@ -69,10 +75,41 @@ class TableView extends Component {
     });
   }
 
+  onSelectAll = (e) => {
+    const isAllSelected = e.target.checked;
+    const newSelected = new Set(this.state.selected);
+
+    if (!isAllSelected) {
+      newSelected.clear();
+      return this.setState({
+        selected: newSelected,
+      })
+    }
+
+    this.state.data.forEach((row, index) => {
+      newSelected.add(index);
+    });
+
+    this.setState({
+      selected: newSelected,
+    });
+  }
+
+  onCheckboxChange = (rowIndex) => (e) => {
+    const isChecked = e.target.checked;
+    const nextSelected = new Set(this.state.selected)
+
+    if (isChecked) nextSelected.add(rowIndex)
+    else nextSelected.delete(rowIndex)
+
+    this.setState({ selected: nextSelected })
+  }
+
+
   getColumnWidths = () => {
     const columnWidths = this.state.columns.map(col => null);
     columnWidths[0] = 40;
-    columnWidths[1] = 250;
+    columnWidths[1] = 300;
     return columnWidths;
   }
 
@@ -87,17 +124,19 @@ class TableView extends Component {
   };
 
   render() {
-    const columns = this.state.columns.map(col => col.getColumn(this.sortColumn, this.state.data, this.state.sortedIndexMap));
+    const columns = this.state.columns.map(col => col.getColumn(this.sortColumn, this.state));
 
     return (
       <div className="row" style={{ position: 'absolute', height: '80%', width: '100%' }}>
+        Rows selected: {this.state.selected.size}
+
         <Table
           columnWidths={this.getColumnWidths()}
           defaultRowHeight={40}
           enableFocus={true}
           fillBodyWithGhostCells={true}
           isRowResizable={false}
-          numFrozenColumns={2}
+          numFrozenColumns={3}
           numRows={this.state.data.length}
           selectionModes={SelectionModes.NONE}
           renderMode={RenderMode.BATCH_ON_UPDATE}

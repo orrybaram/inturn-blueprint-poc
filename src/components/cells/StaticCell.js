@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cell } from '@blueprintjs/table';
+import { DefaultCell } from '../cells';
 
 export default (name) => (data, sortedIndexMap) => (rowIndex) => {
   const sortedRowIndex = sortedIndexMap[rowIndex];
@@ -9,6 +9,6 @@ export default (name) => (data, sortedIndexMap) => (rowIndex) => {
 
   const value = data[rowIndex][name];
   return (
-    <Cell>{value}</Cell>
+    <DefaultCell>{value}</DefaultCell>
   )
 }

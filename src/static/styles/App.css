@@ -24,3 +24,16 @@ html, body {
 .bp-table-truncated-text {
   height: 100%;
 }
+
+.bp-table-column-name-text {
+  pointer-events: all;
+}
+
+.bp-table-row-headers-cells-container {
+  display: none;
+}
+
+.bp-table-row-headers {
+  display: none;
+  width: 0;
+}

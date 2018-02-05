@@ -2,21 +2,22 @@ import React from 'react';
 import { ColumnHeaderCell, Column } from '@blueprintjs/table';
 
 export default class SelectAllColumn {
-  constructor(name, cellRenderer) {
+  constructor(name, cellRenderer, columnProps) {
     this.name = name;
     this.cellRenderer = cellRenderer;
+    this.onSelectAll = columnProps.onSelectAll;
   }
 
-  getColumn(data) {
+  getColumn(_, state) {
     const columnHeaderCellRenderer = () => (
       <ColumnHeaderCell
-        name={<input type="checkbox" />}
+        name={<input type="checkbox" onChange={this.onSelectAll}/>}
       />
     );
 
     return (
       <Column
-        renderCell={this.cellRenderer(this.name)}
+        renderCell={this.cellRenderer(this.name)(state.selected)}
         renderColumnHeader={columnHeaderCellRenderer}
         key={this.name}
         name={this.name}
