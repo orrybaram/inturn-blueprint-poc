@@ -1,19 +1,22 @@
 import React from 'react';
 import { Cell } from '../cells';
 
-export default ({ onBlur }) => (name) => (data, sortedIndexMap) => (rowIndex) => {
+export default ({ onQuantityInputChange }) => (name) => (data, sortedIndexMap) => (rowIndex) => {
   const sortedRowIndex = sortedIndexMap[rowIndex];
   if (sortedRowIndex) {
     rowIndex = sortedRowIndex;
   }
 
   const availableQuantity = data[rowIndex].quantity;
-  const onInputBlur = (e) => {
-    onBlur(e, rowIndex);
+  const purchaseQuantity = data[rowIndex].item_quantity
+
+  const onChange = (e) => {
+    onQuantityInputChange(e, rowIndex);
   }
+
   return (
     <Cell interactive={true}>
-      <input style={{ width: 50 }} onBlur={onInputBlur}/>
+      <input style={{ width: 50 }} value={purchaseQuantity} onChange={onChange}/>
       {availableQuantity}
     </Cell>
   )

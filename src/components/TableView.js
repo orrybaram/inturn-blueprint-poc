@@ -24,6 +24,7 @@ import data from '../data.json'
 
 const transformedData = data.map((item) => {
   item.total_price = '$0.00';
+  item.item_quantity = 0;
   return item;
 })
 
@@ -36,7 +37,7 @@ class TableView extends Component {
       columns: [
         new SelectAllColumn('selectAll', SelectRowCell({ onCheckboxChange: this.onCheckboxChange, selected: new Set() }), { onSelectAll: this.onSelectAll }),
         new TextSortableColumn('Item', 'name', ItemCell),
-        new NumberSortableColumn('Qty & Sizing', 'quantity', QuantityAndSizingCell({ onBlur: this.onQuantityInputBlur })),
+        new NumberSortableColumn('Qty & Sizing', 'quantity', QuantityAndSizingCell({ onQuantityInputChange: this.onQuantityInputChange })),
         new TextSortableColumn('Unit Price', 'unit_price', EditablePriceCell),
         new TextSortableColumn('Total Price', 'total_price', EditablePriceCell),
         new TextSortableColumn('SKU', 'sku', StaticCell),
@@ -62,7 +63,7 @@ class TableView extends Component {
     })
   }
 
-  onQuantityInputBlur = (e, rowIndex) => {
+  onQuantityInputChange = (e, rowIndex) => {
     const newData = [...this.state.data];
     const quantity = e.target.value;
     const price = newData[rowIndex].unit_price.substring(1);
@@ -110,6 +111,8 @@ class TableView extends Component {
     const columnWidths = this.state.columns.map(col => null);
     columnWidths[0] = 40;
     columnWidths[1] = 300;
+    columnWidths[3] = 80
+    columnWidths[4] = 80
     return columnWidths;
   }
 
