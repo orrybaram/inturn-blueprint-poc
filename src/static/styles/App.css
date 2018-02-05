@@ -1,3 +1,5 @@
+@import 'normalize.css';
+
 * {
   box-sizing: border-box;
 }
@@ -36,4 +38,15 @@ html, body {
 .bp-table-row-headers {
   display: none;
   width: 0;
+}
+
+.bp-table-editable-text {
+  display: flex;
+  align-items: center;
+}
+
+:focus {
+  outline: rgba(19, 124, 189, 0.5) auto 2px;
+  outline-offset: -3px;
+  -moz-outline-radius: 6px;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DefaultCell } from '../cells';
+import { Cell } from '../cells';
 
 export default ({ onBlur }) => (name) => (data, sortedIndexMap) => (rowIndex) => {
   const sortedRowIndex = sortedIndexMap[rowIndex];
@@ -12,9 +12,9 @@ export default ({ onBlur }) => (name) => (data, sortedIndexMap) => (rowIndex) =>
     onBlur(e, rowIndex);
   }
   return (
-    <DefaultCell interactive={true}>
+    <Cell interactive={true}>
       <input style={{ width: 50 }} onBlur={onInputBlur}/>
       {availableQuantity}
-    </DefaultCell>
+    </Cell>
   )
 }

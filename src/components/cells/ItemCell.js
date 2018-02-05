@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'react-emotion';
 import Button from '../Button';
-import DefaultCell from '../cells/DefaultCell';
+import Cell from '../cells/Cell';
 
 const itemNameClass = css`
   display: inline-block;
@@ -18,10 +18,10 @@ export default (name) => (data, sortedIndexMap) => (rowIndex) => {
   const image = data[rowIndex].image;
 
   return (
-    <DefaultCell interactive={true}>
+    <Cell interactive={true}>
       <Button />
       <span className={itemNameClass}>{name}</span>
       <img alt="" src={image} />
-    </DefaultCell>
+    </Cell>
   )
 }

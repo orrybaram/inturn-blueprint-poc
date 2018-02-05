@@ -7,8 +7,11 @@ const Button = styled('button')`
   border-radius: 3px;
   color: #4dc5ff;
   text-transform: uppercase;
-  width: 60px;
+  width: 70px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   ${({ text }) => text && text === 'added' && css`
     color: #34ca34;

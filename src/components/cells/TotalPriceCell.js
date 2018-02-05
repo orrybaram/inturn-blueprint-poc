@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditableCell } from '@blueprintjs/table';
+import { EditableCell } from './';
 
 export default (name) => (data, sortedIndexMap) => (rowIndex) => {
   const sortedRowIndex = sortedIndexMap[rowIndex];

@@ -17,7 +17,7 @@ export default class SelectAllColumn {
 
     return (
       <Column
-        renderCell={this.cellRenderer(this.name)(state.selected)}
+        renderCell={this.cellRenderer(this.name)(state.selected, state.sortedIndexMap)}
         renderColumnHeader={columnHeaderCellRenderer}
         key={this.name}
         name={this.name}

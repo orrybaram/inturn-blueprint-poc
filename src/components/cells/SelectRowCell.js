@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'react-emotion';
-import { DefaultCell } from '../cells';
+import { Cell } from '../cells';
 
 const RowIndex = css`
   opacity: 1;
@@ -12,7 +12,7 @@ const CheckBox = css`
   position: absolute;
 `;
 
-const Cell = styled(DefaultCell)`
+const CellWrapper = styled(Cell)`
   ${({isSelected}) => isSelected && css`
     span {
       opacity: 0;
@@ -35,17 +35,23 @@ const Cell = styled(DefaultCell)`
 `
 
 
-export default ({ onCheckboxChange }) => (name) => (selected) => (rowIndex) => {
+export default ({ onCheckboxChange }) => (name) => (selected, sortedIndexMap) => (rowIndex) => {
+  const originalIndex = rowIndex;
+  const sortedRowIndex = sortedIndexMap[rowIndex];
+  if (sortedRowIndex) {
+    rowIndex = sortedRowIndex;
+  }
+
   const isSelected = selected.has(rowIndex);
 
   return (
-    <Cell isSelected={isSelected} interactive={true}>
-      <span className={RowIndex}>{Number(rowIndex) + 1}</span>
+    <CellWrapper isSelected={isSelected} interactive={true}>
+      <span className={RowIndex}>{Number(originalIndex) + 1}</span>
       <input
         onChange={onCheckboxChange(rowIndex)}
         checked={isSelected}
         className={CheckBox} type="checkbox"
       />
-    </Cell>
+    </CellWrapper>
   )
 }
